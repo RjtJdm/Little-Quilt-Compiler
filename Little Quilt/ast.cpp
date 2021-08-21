@@ -7,14 +7,11 @@ using namespace std;
 int sp = 0;
 enum type {a0=0, a1, a2, a3, b0, b1, b2, b3, error};
 vector<string>val{"a0", "a1", "a2", "a3", "b0", "b1", "b2", "b3"};
-//extern static int temp=0;
-//extern ofstream file;
 ofstream file("lq.code.cpp");
 ofstream ast("lq.ast");
 static int temp=0;
 int x=0;
 void space(){
-	//cout<<"X ===   "<<x<<endl;
 	for(int i=1; i<x; i++)
 		cout<<"   ";
 }
@@ -60,35 +57,26 @@ type next(int p){
 	}
 }
 A_AST::A_AST(){
-	//cout<<"-------------------a--------------\n";
 	quad = new Quadruple("a", NULL, NULL,temp);
 	temp++;
 }
 
 B_AST::B_AST(){
-	//cout<<"b\n";
 	quad = new Quadruple("b", NULL, NULL, temp);
 	temp++;
 }
 
 SEW_AST::SEW_AST(AST *l, AST *r){
-	//cout<<"sew constructor\n";
-	//name = n;
 	left = l;
 	right = r;
-	//cout<<"sew object called\n";
 	quad = new Quadruple("sew", l->quad, r->quad, temp);
 	temp++;
-	//cout<<"sew object exit   "<<name<<"\n";
 }
 
 TURN_AST::TURN_AST( AST *c){
-	//cout<<"--------------turn object called-----------\n";
-//	name = n;
 	child = c;
 	quad = new Quadruple("turn", child->quad, NULL,temp);
 	temp++;
-	//cout<<"-------------turn object exit--------------\n";
 }
 
 
@@ -185,29 +173,18 @@ void SEW_AST::print_ast(){
 	cout<<","<<endl;
 	x--;
 	right->print_ast();
-	
-	//x--;
-	/*space();
-	cout<<")\n";*/
-	
-	//x--;
 	space();
 	cout<<")\n";
-	/*x--;
-	space();
-	cout<<")\n";*/
 	x--;
 }
 
 LET_AST::LET_AST(AST *d, AST *e){
-	//cout<<"++++++++++++++++++let ast constructor+++++++++++\n";
 	decl = d;
 	expr = e;
 	
 }
 
 FUN_AST::FUN_AST(string fn, string t, AST *formal, AST *e){
-	//cout<<"++++++++++++++++++FUN ast constructor+++++++++++\n";
 	funName=fn;
 	formals=formal;
 	exp=e;
@@ -215,27 +192,23 @@ FUN_AST::FUN_AST(string fn, string t, AST *formal, AST *e){
 }
 
 VAL_AST::VAL_AST(string n, string t, AST *e){
-	//cout<<"++++++++++++++++++VAL ast constructor+++++++++++\n";
 	name=n;
 	exp=e;
 	type=t;
 }
 
 CALL_AST::CALL_AST(string n, string t, AST *call){
-	//cout<<"++++++++++++++++++CALL ast constructor+++++++++++\n";
 	name=n;
 	callee=call;
 	type=t;
 }
 
 DECL_AST::DECL_AST(AST *e1, AST *e2){
-	//cout<<"++++++++++++++++++DECL ast constructor+++++++++++\n";
 	exp1=e1;
 	exp2=e2;
 }
 
 FORMAL_AST::FORMAL_AST(string n1, AST *form){
-	//cout<<"++++++++++++++++++FORMAL ast constructor+++++++++++\n";
 	name1=n1;
 	formal=form;
 }
@@ -247,21 +220,13 @@ ACTUAL_AST::ACTUAL_AST(AST *n, AST *a){
 
 
 void LET_AST::print_ast(){
-	//cout<<"\n====================let ast printed================\n";
 	x++;
 	space();
-	//x++;
 	cout<<"(LET\n";
 	x++;
 	space();
 	cout<<"(DECL\n";
-	//x++;
-	//space();
 	decl->print_ast();
-	/*x--;
-	space();
-	cout<<")\n";*/
-	//x++;
 	space();
 	cout<<")\n";
 	
@@ -270,9 +235,7 @@ void LET_AST::print_ast(){
 	space();
 	cout<<"(IN_EXPR\n";
 	
-	//x++;
 	expr->print_ast();
-	//x--;
 	space();
 	cout<<")\n";
 	
@@ -280,14 +243,10 @@ void LET_AST::print_ast(){
 	space();
 	cout<<")\n";
 	
-	/*x--;
-	space();
-	cout<<")\n";*/
 	x--;
 }
 
 void FUN_AST::print_ast(){
-	//cout<<"\n====================FUN ast printed================\n";
 	x++;
 	space();
 	cout<<"(FUN "<<funName<<endl;
@@ -331,7 +290,6 @@ void FUN_AST::print_ast(){
 }
 
 void VAL_AST::print_ast(){
-	//cout<<"\n====================VAL ast printed================\n";
 	x++;
 	space();
 	
@@ -346,7 +304,6 @@ void VAL_AST::print_ast(){
 }
 
 void DECL_AST::print_ast(){
-	//cout<<"\n====================DECL ast printed================\n";
 	if(exp2==NULL){
 		exp1->print_ast();
 	}
@@ -362,7 +319,6 @@ void DECL_AST::print_ast(){
 }
 
 void CALL_AST::print_ast(){
-	//cout<<"\n====================CALL ast printed================\n";
 	
 	if(callee==NULL)
 		{	
@@ -427,9 +383,7 @@ void FORMAL_AST::print_ast(){
 	
 }
 
-void ACTUAL_AST:: print_ast(){
-	//cout<<"Actual parameters are defined here------------\n";
-	
+void ACTUAL_AST:: print_ast(){	
 	if(actual==NULL)
 	{	exp->print_ast();}
 	else{
@@ -438,14 +392,8 @@ void ACTUAL_AST:: print_ast(){
 		space();
 		cout<<",\n";
 		x--;
-		//space();
 		actual->print_ast();
-		/*space();
-		cout<<")\n";
-		x--;*/
 	}
-	
-	//x++;
 }
 
 Quilt LET_AST::evaluate(){
