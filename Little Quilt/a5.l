@@ -1,0 +1,36 @@
+%{
+	#include<string>
+	#include<iostream>
+	using namespace std;
+	#include"ast.h"
+	#include"parse.tab.h"	
+%}
+
+%option noyywrap
+ws [ \t\n]*
+
+%%
+"sew"	{return SEW;}
+"turn"	{return TURN;}
+"a"	{return A;}
+"b"	{return B;}
+"("	{return L;}
+")"	{return R;}
+","	{return COM;}
+";"	{return yytext[0];};
+
+"let"	{return LET;}
+"in"	{return IN;}
+"end"	{return END;}
+
+"fun"	{return FUN;}
+
+"val"	{return VAL;}
+"="	{return EQ;}
+[a-zA-Z0-9_]+ {	yylval.name = new string(yytext);
+		return NAME;}
+{ws}	;
+. {
+
+	cout<<"ERROR!!!\n";	
+}
